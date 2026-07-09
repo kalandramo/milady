@@ -21,18 +21,6 @@ dist/
 *.ipr
 *.iws
 
-_output/
-mysql-data/
 
-cmd/serverNameExample/serverNameExample
-# delete the templates code start
-cmd/protoc-gen-go-gin/protoc-gen-go-gin
-cmd/protoc-gen-go-rpc-tmpl/protoc-gen-go-rpc-tmpl
-cmd/serverNameExample_grpcExample/serverNameExample_grpcExample
-cmd/serverNameExample_grpcPbExample/serverNameExample_grpcPbExample
-cmd/serverNameExample_httpExample/serverNameExample_httpExample
-cmd/serverNameExample_grpcGwPbExample/serverNameExample_grpcGwPbExample
-cmd/serverNameExample_httpPbExample/serverNameExample_httpPbExample
-cmd/serverNameExample_mixExample/serverNameExample_mixExample
-cmd/milady/milady
-# delete the templates code end
+
+
