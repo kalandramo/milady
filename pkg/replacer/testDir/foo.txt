@@ -1,7 +1,0 @@
-456
-
-{{.service}}
-{{.service.name}}
-{{.service.version}}
-{{.port}}
-{{.isSecure}}
