@@ -69,7 +69,7 @@ func OrderBy(value any) QueryOption {
 }
 
 // Universal 通用增删改查
-// Deprecated: 建议使用 godddx 生成代码，而非内嵌此接口
+// Deprecated: 建议使用 milady 生成代码，而非内嵌此接口
 type Universal[T any] interface {
 	Get(context.Context, *T, ...QueryOption) error
 	// olw

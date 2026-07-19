@@ -32,8 +32,8 @@ rename:
 	fi
 	@rm -rf domain/* pkg/*
 	@echo "正在替换模块名为: $(name)"
-	@find . -type f -name "*.go" -exec sed -i.bak 's|github\.com/ixugo/goddd/internal|$(name)/internal|g' {} \;
-	@sed -i.bak 's|github\.com/ixugo/goddd|$(name)|g' go.mod
+	@find . -type f -name "*.go" -exec sed -i.bak 's|github\.com/kalandramo/milady/internal|$(name)/internal|g' {} \;
+	@sed -i.bak 's|github\.com/kalandramo/milady|$(name)|g' go.mod
 	@find . -name "*.bak" -delete
 	@go mod tidy
 	@git init
@@ -48,7 +48,7 @@ init:
 	@make title content="install dependencies..."
 	go install github.com/google/wire/cmd/wire@latest
 	go install github.com/divan/expvarmon@latest
-	go install github.com/ixugo/godddx@latest
+	go install github.com/kalandramo/milady@latest
 	go install github.com/rakyll/hey@latest
 	go install mvdan.cc/gofumpt@latest
 	@make title content="Successed!"

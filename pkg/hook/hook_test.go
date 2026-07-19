@@ -205,7 +205,7 @@ func TestFileMD5MemoryUsage(t *testing.T) {
 	// 自建临时文件，不依赖任何本机路径
 	// 内容写大一些，让流式读取的内存优势在日志里可见
 	filename := filepath.Join(t.TempDir(), "test.bin")
-	data := bytes.Repeat([]byte("goddd-md5-stream"), 64*1024)
+	data := bytes.Repeat([]byte("milady-md5-stream"), 64*1024)
 	err := os.WriteFile(filename, data, 0o644)
 	assert.NoError(t, err)
 	if err != nil {
@@ -234,7 +234,7 @@ func TestMD5WithReadAll(t *testing.T) {
 
 	// 自建临时文件，验证一次性读入与流式计算的 md5 结果一致
 	filename := filepath.Join(t.TempDir(), "test.bin")
-	content := bytes.Repeat([]byte("goddd-md5-readall"), 64*1024)
+	content := bytes.Repeat([]byte("milady-md5-readall"), 64*1024)
 	err := os.WriteFile(filename, content, 0o644)
 	assert.NoError(t, err)
 	if err != nil {

@@ -9,7 +9,7 @@ import (
 // codes 记录所有已注册的 reason，用于启动期检测重复定义。
 var codes = make(map[string]string, 8)
 
-// CustomError 是 goddd 统一错误接口。
+// CustomError 是 milady 统一错误接口。
 // 所有方法均返回新对象，不修改原错误（不可变语义）。
 type CustomError interface {
 	error
@@ -43,7 +43,7 @@ type ErrorInfoer interface {
 
 var _ CustomError = &Error{}
 
-// Error 是 goddd 的统一错误结构体。
+// Error 是 milady 的统一错误结构体。
 // Reason 和 Msg 面向 API 消费者，Details 面向开发者排查，
 // HTTPStatus 映射 HTTP 状态码，Cause 保留底层错误链路。
 type Error struct {
