@@ -21,6 +21,34 @@ dist/
 *.ipr
 *.iws
 
+# Go workspace file
+go.work
+go.work.sum
 
+# env file
+.env
+*.log
+*.db
+build/
+.vscode/
+__debug_*
+www/
+*.db
+tables/
+*.tar
+*.zip
+.idea/
+data/
+logs/
+build/
+__debug_bin*
+tables/
+*.pprof
+*.test
+CLAUDE.local.md
+*.mp4
+*.mp3
+tmp/
+**/.DS_Store
 
 
