@@ -30,7 +30,7 @@ import (
     "fmt"
     "net/http"
 
-    "github.com/ixugo/goddd/pkg/ws"
+    "github.com/kalandramo/milady/pkg/ws"
 )
 
 func main() {

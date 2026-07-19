@@ -10,7 +10,8 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/ixugo/goddd/pkg/assert"
+
+	"github.com/kalandramo/milady/pkg/assert"
 )
 
 func TestErrorMessage(t *testing.T) {

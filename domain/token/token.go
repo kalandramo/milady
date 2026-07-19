@@ -6,9 +6,10 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/ixugo/goddd/pkg/orm"
-	"github.com/ixugo/goddd/pkg/reason"
 	"github.com/jinzhu/copier"
+
+	"github.com/kalandramo/milady/pkg/orm"
+	"github.com/kalandramo/milady/pkg/reason"
 )
 
 // TokenStorer Instantiation interface

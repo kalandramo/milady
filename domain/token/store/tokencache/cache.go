@@ -2,8 +2,8 @@
 package tokencache
 
 import (
-	"github.com/ixugo/goddd/domain/token"
-	"github.com/ixugo/goddd/pkg/conc"
+	"github.com/kalandramo/milady/domain/token"
+	"github.com/kalandramo/milady/pkg/conc"
 )
 
 var _ token.Storer = (*Cache)(nil)

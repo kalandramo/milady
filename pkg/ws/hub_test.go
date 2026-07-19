@@ -11,7 +11,8 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
-	"github.com/ixugo/goddd/pkg/assert"
+
+	"github.com/kalandramo/milady/pkg/assert"
 )
 
 // TestBroadcastSkipsSlowConsumer 广播跳过发送队列满的慢连接，但不剔除、不关闭

@@ -20,7 +20,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ixugo/goddd/pkg/assert"
+	"github.com/kalandramo/milady/pkg/assert"
 )
 
 // ==== server.go ====

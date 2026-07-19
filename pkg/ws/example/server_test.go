@@ -8,7 +8,8 @@ import (
 	"testing"
 
 	"github.com/gorilla/websocket"
-	"github.com/ixugo/goddd/pkg/assert"
+
+	"github.com/kalandramo/milady/pkg/assert"
 )
 
 // 创建测试服务器

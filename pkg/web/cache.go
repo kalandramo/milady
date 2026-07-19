@@ -7,7 +7,8 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/ixugo/goddd/pkg/hook"
+
+	"github.com/kalandramo/milady/pkg/hook"
 )
 
 type EtagWriter struct {

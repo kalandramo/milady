@@ -2,8 +2,8 @@
 package token
 
 import (
-	"github.com/ixugo/goddd/pkg/orm"
-	"github.com/ixugo/goddd/pkg/web"
+	"github.com/kalandramo/milady/pkg/orm"
+	"github.com/kalandramo/milady/pkg/web"
 )
 
 type FindTokenInput struct {

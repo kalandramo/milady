@@ -7,7 +7,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/ixugo/goddd/pkg/reason"
+
+	"github.com/kalandramo/milady/pkg/reason"
 )
 
 // 为确保兼容性，以下值不可更改

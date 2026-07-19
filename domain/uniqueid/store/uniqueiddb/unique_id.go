@@ -4,9 +4,10 @@ package uniqueiddb
 import (
 	"context"
 
-	"github.com/ixugo/goddd/domain/uniqueid"
-	"github.com/ixugo/goddd/pkg/orm"
 	"gorm.io/gorm"
+
+	"github.com/kalandramo/milady/domain/uniqueid"
+	"github.com/kalandramo/milady/pkg/orm"
 )
 
 var _ uniqueid.UniqueIDStorer = UniqueID{}

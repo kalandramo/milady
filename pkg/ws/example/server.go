@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ixugo/goddd/pkg/ws"
+	"github.com/kalandramo/milady/pkg/ws"
 )
 
 //go:embed websocket.html

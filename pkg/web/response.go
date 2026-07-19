@@ -13,7 +13,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	"github.com/ixugo/goddd/pkg/reason"
+
+	"github.com/kalandramo/milady/pkg/reason"
 )
 
 const ResponseErr = "responseErr"

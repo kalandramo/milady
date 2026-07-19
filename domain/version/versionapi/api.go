@@ -3,10 +3,11 @@ package versionapi
 import (
 	"log/slog"
 
-	"github.com/ixugo/goddd/domain/version"
-	"github.com/ixugo/goddd/domain/version/store/versiondb"
-	"github.com/ixugo/goddd/pkg/orm"
 	"gorm.io/gorm"
+
+	"github.com/kalandramo/milady/domain/version"
+	"github.com/kalandramo/milady/domain/version/store/versiondb"
+	"github.com/kalandramo/milady/pkg/orm"
 )
 
 // 通过修改版本号，来控制是否执行表迁移

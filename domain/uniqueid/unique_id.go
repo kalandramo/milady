@@ -4,7 +4,7 @@ package uniqueid
 import (
 	"context"
 
-	"github.com/ixugo/goddd/pkg/orm"
+	"github.com/kalandramo/milady/pkg/orm"
 )
 
 // UniqueIDStorer Instantiation interface

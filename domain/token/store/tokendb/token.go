@@ -6,10 +6,11 @@ import (
 	"encoding/hex"
 	"time"
 
-	"github.com/ixugo/goddd/domain/token"
-	"github.com/ixugo/goddd/pkg/orm"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
+
+	"github.com/kalandramo/milady/domain/token"
+	"github.com/kalandramo/milady/pkg/orm"
 )
 
 var _ token.TokenStorer = Token{}

@@ -6,9 +6,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ixugo/goddd/domain/token"
-	"github.com/ixugo/goddd/pkg/orm"
 	"gorm.io/gorm"
+
+	"github.com/kalandramo/milady/domain/token"
+	"github.com/kalandramo/milady/pkg/orm"
 )
 
 // 若不需要实现缓存，可以注释

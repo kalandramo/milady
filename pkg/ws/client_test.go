@@ -13,7 +13,8 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/ixugo/goddd/pkg/assert"
+
+	"github.com/kalandramo/milady/pkg/assert"
 )
 
 // TestConcurrentSendAndClose 并发 Send 与连接关闭不得产生 panic、数据竞争（配合 -race）

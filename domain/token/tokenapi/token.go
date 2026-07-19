@@ -6,13 +6,14 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/ixugo/goddd/domain/token"
-	"github.com/ixugo/goddd/domain/token/store/tokencache"
-	"github.com/ixugo/goddd/domain/token/store/tokendb"
-	"github.com/ixugo/goddd/pkg/conc"
-	"github.com/ixugo/goddd/pkg/orm"
-	"github.com/ixugo/goddd/pkg/web"
 	"gorm.io/gorm"
+
+	"github.com/kalandramo/milady/domain/token"
+	"github.com/kalandramo/milady/domain/token/store/tokencache"
+	"github.com/kalandramo/milady/domain/token/store/tokendb"
+	"github.com/kalandramo/milady/pkg/conc"
+	"github.com/kalandramo/milady/pkg/orm"
+	"github.com/kalandramo/milady/pkg/web"
 )
 
 type TokenAPI struct {

@@ -4,9 +4,10 @@ import (
 	"log/slog"
 
 	"github.com/gin-gonic/gin"
-	"github.com/ixugo/goddd/domain/version"
-	"github.com/ixugo/goddd/pkg/orm"
-	"github.com/ixugo/goddd/pkg/web"
+
+	"github.com/kalandramo/milady/domain/version"
+	"github.com/kalandramo/milady/pkg/orm"
+	"github.com/kalandramo/milady/pkg/web"
 )
 
 type API struct {

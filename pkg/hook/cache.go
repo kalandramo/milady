@@ -3,7 +3,7 @@ package hook
 import (
 	"time"
 
-	"github.com/ixugo/goddd/pkg/conc"
+	"github.com/kalandramo/milady/pkg/conc"
 )
 
 // CacheFn 缓存函数

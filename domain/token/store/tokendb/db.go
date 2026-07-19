@@ -2,8 +2,9 @@
 package tokendb
 
 import (
-	"github.com/ixugo/goddd/domain/token"
 	"gorm.io/gorm"
+
+	"github.com/kalandramo/milady/domain/token"
 )
 
 var _ token.Storer = DB{}

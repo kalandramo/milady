@@ -13,7 +13,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/ixugo/goddd/pkg/logger"
+
+	"github.com/kalandramo/milady/pkg/logger"
 )
 
 const DefaultBodyLimit = 100

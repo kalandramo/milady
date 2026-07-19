@@ -1,8 +1,9 @@
 package versiondb
 
 import (
-	"github.com/ixugo/goddd/domain/version"
 	"gorm.io/gorm"
+
+	"github.com/kalandramo/milady/domain/version"
 )
 
 // DB ...

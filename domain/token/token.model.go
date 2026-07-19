@@ -4,7 +4,7 @@ package token
 import (
 	"encoding/hex"
 
-	"github.com/ixugo/goddd/pkg/orm"
+	"github.com/kalandrmo/milady/pkg/orm"
 )
 
 // Token domain model

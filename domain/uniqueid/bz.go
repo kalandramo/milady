@@ -12,8 +12,8 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/ixugo/goddd/pkg/hook"
-	"github.com/ixugo/goddd/pkg/orm"
+	"github.com/kalandramo/milady/pkg/hook"
+	"github.com/kalandramo/milady/pkg/orm"
 )
 
 const (

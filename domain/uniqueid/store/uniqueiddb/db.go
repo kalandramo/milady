@@ -2,8 +2,9 @@
 package uniqueiddb
 
 import (
-	"github.com/ixugo/goddd/domain/uniqueid"
 	"gorm.io/gorm"
+
+	"github.com/kalandramo/milady/domain/uniqueid"
 )
 
 var _ uniqueid.Storer = DB{}

@@ -10,7 +10,8 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/ixugo/goddd/pkg/assert"
+
+	"github.com/kalandramo/milady/pkg/assert"
 )
 
 // groupTestClient 拨号并完成鉴权，返回连接

@@ -5,8 +5,8 @@ import (
 	"crypto/sha256"
 	"time"
 
-	"github.com/ixugo/goddd/pkg/orm"
-	"github.com/ixugo/goddd/pkg/reason"
+	"github.com/kalandramo/milady/pkg/orm"
+	"github.com/kalandramo/milady/pkg/reason"
 )
 
 // DelayToken 延迟 token，短期内只会延迟一次，expire 过期时间应该大于 10 分钟

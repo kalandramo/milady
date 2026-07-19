@@ -7,7 +7,8 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/ixugo/goddd/pkg/queue"
+
+	"github.com/kalandramo/milady/pkg/queue"
 )
 
 // 您可能想了解:

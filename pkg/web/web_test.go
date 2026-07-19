@@ -8,7 +8,8 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
-	"github.com/ixugo/goddd/pkg/logger"
+
+	"github.com/kalandramo/milady/pkg/logger"
 )
 
 func TestLogger(t *testing.T) {

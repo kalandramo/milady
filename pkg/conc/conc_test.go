@@ -11,7 +11,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ixugo/goddd/pkg/assert"
+	"github.com/kalandramo/milady/pkg/assert"
 )
 
 // closed 返回一个轮询函数，供 assert.Eventually 检查 channel 是否已关闭。
