@@ -10,7 +10,6 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/google/wire v0.7.0
 	github.com/gorilla/websocket v1.5.3
-	github.com/ixugo/goddd v1.7.8
 	github.com/jinzhu/copier v0.4.0
 	github.com/pelletier/go-toml/v2 v2.4.0
 	go.uber.org/zap v1.28.0

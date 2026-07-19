@@ -4,7 +4,7 @@ package token
 import (
 	"encoding/hex"
 
-	"github.com/kalandrmo/milady/pkg/orm"
+	"github.com/kalandramo/milady/pkg/orm"
 )
 
 // Token domain model
