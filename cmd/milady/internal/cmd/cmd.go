@@ -2,32 +2,31 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
-const version = "v1.0.0"
+// const version = "v1.0.0"
 
 // NewRootCmd 构建并返回根命令。
 func NewRootCmd() *cobra.Command {
-	var showVersion bool
+	// var showVersion bool
 	root := &cobra.Command{
 		Use:   "milady",
 		Short: "milady CLI tool",
 		Long:  "用于初始化和管理 milady 项目的命令行工具。",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if showVersion {
-				fmt.Println("milady", version)
-				return nil
-			}
+			// if showVersion {
+			// 	fmt.Println("milady", version)
+			// 	return nil
+			// }
 			return cmd.Help()
 		},
 	}
-	root.Flags().BoolVarP(&showVersion, "version", "v", false, "打印版本号")
+	// root.Flags().BoolVarP(&showVersion, "version", "v", false, "打印版本号")
 	root.CompletionOptions.DisableDefaultCmd = true
 	root.AddCommand(newInitCmd())
 	root.AddCommand(newGenCmd())
 	root.AddCommand(newGofumptCmd())
+	root.AddCommand(newVersion())
 	return root
 }

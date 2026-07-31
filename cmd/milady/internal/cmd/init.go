@@ -23,7 +23,7 @@ type templateRepo struct {
 
 var templateRepos = []templateRepo{
 	{Name: "github", URL: "https://github.com/kalandramo/milady.git"},
-	// {Name: "gitee", URL: "https://gitee.com/kalandramo/milady.git"},
+	{Name: "gitee", URL: "https://gitee.com/kalandramo/milady.git"},
 }
 
 const (

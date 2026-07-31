@@ -95,7 +95,7 @@ func Logger(ignoreFn ...IngoreOption) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		guid := uuid.New()
 		traceID := hex.EncodeToString(guid[:])
-		c.Request = c.Request.WithContext(logger.WithAttr(c.Request.Context(), slog.String("trace_id", traceID)))
+		c.Request = c.Request.WithContext(logger.WithAttrs(c.Request.Context(), slog.String("trace_id", traceID)))
 		SetTraceID(c, traceID)
 
 		for _, fn := range ignoreFn {
@@ -194,7 +194,8 @@ func LoggerWithUseTime(maxLimit time.Duration, ignoreFn ...IngoreOption) gin.Han
 		since := time.Since(now)
 
 		if since >= maxLimit {
-			slog.WarnContext(c.Request.Context(), "check for slow response",
+			slog.WarnContext(
+				c.Request.Context(), "check for slow response",
 				"since", since.Milliseconds(),
 				"path", c.Request.URL.Path,
 			)
