@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"runtime"
 	"runtime/debug"
-	"strings"
 	"time"
 
 	"github.com/gosuri/uitable"
@@ -13,59 +12,74 @@ import (
 
 // 编译时通过 -ldflags 注入变量，初始默认值
 var (
-	// buildTime 是 ISO8601 格式的构建时间, `git log -n1 --pretty=format:"%h-%cd" --date=format:%y%m%d-%H%M%S` 命令的输出
+	gitVersion   = ""
+	gitCommit    = ""
+	gitTreeState = ""
 	buildTime    = ""
-	gitVersion   = "" // gitVersion 是语义化的版本号 v1.0.0
-	gitCommit    = "" // gitCommit git短哈希+时间
-	gitBranch    = "" // git 分支
-	gitTreeState = "" // gitTreeState 代表构建时 Git 仓库的状态，可能的值有：clean, dirty.
+	builtBy      = ""
 )
 
 // Info 结构化版本信息
 type Info struct {
 	GitVersion   string
 	GitCommit    string
-	GitBranch    string
 	GitTreeState string
 	BuildTime    string
+	BuildBy      string
 	GoVersion    string
 	Compiler     string
 	Platform     string
 }
 
 // String 返回人性化的版本信息字符串.
-func (info Info) String() string {
-	var sb strings.Builder
-	sb.WriteString(fmt.Sprintf("GitVersion:    %s\n", info.GitVersion))
-	sb.WriteString(fmt.Sprintf("GitCommit:  %s\n", info.GitCommit))
-	sb.WriteString(fmt.Sprintf("GitBranch:  %s\n", info.GitBranch))
-	sb.WriteString(fmt.Sprintf("GitTreeState:  %s\n", info.GitTreeState))
-	sb.WriteString(fmt.Sprintf("BuildTime:  %s\n", info.BuildTime))
-	sb.WriteString(fmt.Sprintf("GoVersion:  %s\n", info.GoVersion))
-	sb.WriteString(fmt.Sprintf("Platform:   %s", info.Platform))
-	return sb.String()
+func (i Info) String() string {
+	// 固定东八区，不需要系统时区文件
+	cst := time.FixedZone("CST", 8*3600)
+	displayBuildTime := i.BuildTime
+	if t, err := time.Parse(time.RFC3339, i.BuildTime); err == nil {
+		displayBuildTime = t.In(cst).Format(time.RFC3339)
+	}
+
+	return fmt.Sprintf(
+		`GitVersion:   %s
+GitCommit:    %s
+GitTreeState: %s
+BuildTime:    %s
+BuildBy:      %s
+GoVersion:    %s
+Compiler:     %s
+Platform:     %s`,
+
+		i.GitVersion,
+		i.GitCommit,
+		i.GitTreeState,
+		displayBuildTime,
+		i.BuildBy,
+		i.GoVersion,
+		i.Compiler,
+		i.Platform,
+	)
 }
 
 // ToJSON 以 JSON 格式返回版本信息.
-func (info Info) ToJSON() string {
-	s, _ := json.Marshal(info)
+func (i Info) ToJSON() string {
+	s, _ := json.Marshal(i)
 	return string(s)
 }
 
 // Text 将版本信息编码为 UTF-8 格式的文本，并返回.
-func (info Info) Text() string {
+func (i Info) Text() string {
 	table := uitable.New()
 	table.RightAlign(0)
 	table.MaxColWidth = 80
 	table.Separator = " "
-	table.AddRow("gitVersion:", info.GitVersion)
-	table.AddRow("gitCommit:", info.GitCommit)
-	table.AddRow("gitBranch:", info.GitBranch)
-	table.AddRow("gitTreeState:", info.GitTreeState)
-	table.AddRow("buildTime:", info.BuildTime)
-	table.AddRow("goVersion:", info.GoVersion)
-	table.AddRow("compiler:", info.Compiler)
-	table.AddRow("platform:", info.Platform)
+	table.AddRow("gitVersion:", i.GitVersion)
+	table.AddRow("gitCommit:", i.GitCommit)
+	table.AddRow("gitTreeState:", i.GitTreeState)
+	table.AddRow("buildTime:", i.BuildTime)
+	table.AddRow("goVersion:", i.GoVersion)
+	table.AddRow("compiler:", i.Compiler)
+	table.AddRow("platform:", i.Platform)
 
 	return table.String()
 }
@@ -75,9 +89,9 @@ func Get() Info {
 	base := Info{
 		GitVersion:   gitVersion,
 		GitCommit:    gitCommit,
-		GitBranch:    gitBranch,
 		GitTreeState: gitTreeState,
 		BuildTime:    buildTime,
+		BuildBy:      builtBy,
 		GoVersion:    runtime.Version(),
 		Compiler:     runtime.Compiler,
 		Platform:     fmt.Sprintf("%s/%s", runtime.GOOS, runtime.GOARCH),
@@ -98,9 +112,6 @@ func Get() Info {
 		}
 		if base.GitTreeState == "" {
 			base.GitTreeState = buildInfo.GitTreeState
-		}
-		if base.GitBranch == "" {
-			base.GitBranch = "main" // go install 时这个值永远固定是 main
 		}
 	}
 
