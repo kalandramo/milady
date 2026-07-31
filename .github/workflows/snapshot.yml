@@ -22,7 +22,7 @@ jobs:
         uses: goreleaser/goreleaser-action@v6
         with:
           distribution: goreleaser
-          version: ~>2.0
+          version: nightly
           args: build --snapshot --clean
 
       - name: Upload build artifacts
