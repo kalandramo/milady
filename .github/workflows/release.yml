@@ -7,6 +7,9 @@ on:
   # 可选：支持手动触发
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
