@@ -13,9 +13,10 @@ import (
 
 // 编译时通过 -ldflags 注入变量，初始默认值
 var (
-	buildTime    = "" // buildTime 是 ISO8601 格式的构建时间, $(date -u +'%Y-%m-%dT%H:%M:%SZ') 命令的输出.
-	gitVersion   = "" // gitVersion 是语义化的版本号 v1.0.0.
-	gitCommit    = "" // gitCommit 是 Git 的 SHA1 值，$(git rev-parse HEAD) 命令的输出，使用短哈希结合提交时间.
+	// buildTime 是 ISO8601 格式的构建时间, `git log -n1 --pretty=format:"%h-%cd" --date=format:%y%m%d-%H%M%S` 命令的输出
+	buildTime    = ""
+	gitVersion   = "" // gitVersion 是语义化的版本号 v1.0.0
+	gitCommit    = "" // gitCommit git短哈希+时间
 	gitBranch    = "" // git 分支
 	gitTreeState = "" // gitTreeState 代表构建时 Git 仓库的状态，可能的值有：clean, dirty.
 )
@@ -34,7 +35,6 @@ type Info struct {
 
 // String 返回人性化的版本信息字符串.
 func (info Info) String() string {
-	// return info.GitVersion
 	var sb strings.Builder
 	sb.WriteString(fmt.Sprintf("GitVersion:    %s\n", info.GitVersion))
 	sb.WriteString(fmt.Sprintf("GitCommit:  %s\n", info.GitCommit))
@@ -49,7 +49,6 @@ func (info Info) String() string {
 // ToJSON 以 JSON 格式返回版本信息.
 func (info Info) ToJSON() string {
 	s, _ := json.Marshal(info)
-
 	return string(s)
 }
 
@@ -71,10 +70,9 @@ func (info Info) Text() string {
 	return table.String()
 }
 
-// Get 返回详尽的代码库版本信息，用来标明二进制文件由哪个版本的代码构建.
+// Get 获取版本信息：优先ldflags注入，兜底读取buildinfo
 func Get() Info {
-	// 以下变量通常由 -ldflags 进行设置
-	return Info{
+	base := Info{
 		GitVersion:   gitVersion,
 		GitCommit:    gitCommit,
 		GitBranch:    gitBranch,
@@ -84,6 +82,29 @@ func Get() Info {
 		Compiler:     runtime.Compiler,
 		Platform:     fmt.Sprintf("%s/%s", runtime.GOOS, runtime.GOARCH),
 	}
+
+	// 如果ldflags注入为空，尝试从buildinfo自动读取
+	if base.GitVersion == "" || base.GitCommit == "" {
+		buildInfo := GetFromDebugInfo("github.com/kalandramo/milady")
+		// 缺字段才覆盖，保留ldflags优先
+		if base.GitVersion == "" {
+			base.GitVersion = buildInfo.GitVersion
+		}
+		if base.GitCommit == "" {
+			base.GitCommit = buildInfo.GitCommit
+		}
+		if base.BuildTime == "" {
+			base.BuildTime = buildInfo.BuildTime
+		}
+		if base.GitTreeState == "" {
+			base.GitTreeState = buildInfo.GitTreeState
+		}
+		if base.GitBranch == "" {
+			base.GitBranch = "main" // go install 时这个值永远固定是 main
+		}
+	}
+
+	return base
 }
 
 func GetFromDebugInfo(modulePath string) Info {

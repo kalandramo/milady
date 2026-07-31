@@ -167,7 +167,6 @@ else
     endif
 
     # 获取最新提交哈希值与提交时间
-#     GIT_COMMIT := $(shell git log -n1 --pretty=format:"%h-%cd" --date=format:%y%m%d | awk '{print $1}')
 	GIT_COMMIT := $(shell git log -n1 --pretty=format:"%h-%cd" --date=format:%y%m%d-%H%M%S)
 endif
 
