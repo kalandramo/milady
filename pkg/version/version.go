@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"runtime"
-	"runtime/debug"
 	"time"
 
 	"github.com/gosuri/uitable"
@@ -84,9 +83,9 @@ func (i Info) Text() string {
 	return table.String()
 }
 
-// Get 获取版本信息：优先ldflags注入，兜底读取buildinfo
+// Get 获取版本信息
 func Get() Info {
-	base := Info{
+	return Info{
 		GitVersion:   gitVersion,
 		GitCommit:    gitCommit,
 		GitTreeState: gitTreeState,
@@ -96,76 +95,4 @@ func Get() Info {
 		Compiler:     runtime.Compiler,
 		Platform:     fmt.Sprintf("%s/%s", runtime.GOOS, runtime.GOARCH),
 	}
-
-	// 如果ldflags注入为空，尝试从buildinfo自动读取
-	if base.GitVersion == "" || base.GitCommit == "" {
-		buildInfo := GetFromDebugInfo("github.com/kalandramo/milady")
-		// 缺字段才覆盖，保留ldflags优先
-		if base.GitVersion == "" {
-			base.GitVersion = buildInfo.GitVersion
-		}
-		if base.GitCommit == "" {
-			base.GitCommit = buildInfo.GitCommit
-		}
-		if base.BuildTime == "" {
-			base.BuildTime = buildInfo.BuildTime
-		}
-		if base.GitTreeState == "" {
-			base.GitTreeState = buildInfo.GitTreeState
-		}
-	}
-
-	return base
-}
-
-func GetFromDebugInfo(modulePath string) Info {
-	info := Info{
-		GoVersion: runtime.Version(),
-		Compiler:  runtime.Compiler,
-		Platform:  fmt.Sprintf("%s/%s", runtime.GOOS, runtime.GOARCH),
-	}
-
-	// 尝试从构建信息中获取版本
-	if buildInfo, ok := debug.ReadBuildInfo(); ok {
-		mod := findModule(buildInfo, modulePath)
-		if mod == nil {
-			info.GitVersion = "unknown"
-		} else {
-			if mod.Replace != nil {
-				mod = mod.Replace
-			}
-			info.GitVersion = mod.Version
-		}
-
-		info.GitCommit = "unknown"
-		info.BuildTime = time.Now().Format(time.RFC3339)
-		info.GitTreeState = "clean"
-		// 从构建设置中获取更多信息
-		for _, setting := range buildInfo.Settings {
-			switch setting.Key {
-			case "vcs.revision":
-				info.GitCommit = setting.Value
-			case "vcs.time":
-				info.BuildTime = setting.Value
-			case "vcs.modified":
-				if setting.Value == "true" {
-					info.GitTreeState = "dirty"
-				}
-			}
-		}
-	}
-
-	return info
-}
-
-func findModule(info *debug.BuildInfo, modulePath string) *debug.Module {
-	if info.Main.Path == modulePath {
-		return &info.Main
-	}
-	for _, dep := range info.Deps {
-		if dep.Path == modulePath {
-			return dep
-		}
-	}
-	return nil
 }
