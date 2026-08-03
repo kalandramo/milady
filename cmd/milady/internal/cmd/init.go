@@ -407,7 +407,7 @@ func cloneTemplate(ctx context.Context, repoURL, target string) error {
 
 // cleanupProject 删除模板中不需要的文件和目录。
 func cleanupProject(name string) error {
-	removes := []string{".git", ".DS_Store", "cmd/milady"}
+	removes := []string{".git", ".DS_Store", "cmd/milady", "task", ".github"}
 	for _, r := range removes {
 		_ = os.RemoveAll(filepath.Join(name, r))
 	}
@@ -421,6 +421,12 @@ func replaceModule(name, module string) error {
 	const oldModule = "github.com/kalandramo/milady"
 	oldInternal := oldModule + "/internal"
 	newInternal := module + "/internal"
+
+	oldPkg := oldModule + "/pkg"
+	newPkg := module + "/pkg"
+
+	oldDomain := oldModule + "/domain"
+	newDomain := module + "/domain"
 
 	return filepath.WalkDir(name, func(path string, d os.DirEntry, err error) error {
 		if err != nil {
@@ -455,6 +461,16 @@ func replaceModule(name, module string) error {
 		// 替换 .go 文件中的 internal 路径引用
 		if strings.Contains(text, oldInternal) {
 			text = strings.ReplaceAll(text, oldInternal, newInternal)
+			changed = true
+		}
+
+		if strings.Contains(text, oldDomain) {
+			text = strings.ReplaceAll(text, oldDomain, newDomain)
+			changed = true
+		}
+
+		if strings.Contains(text, oldPkg) {
+			text = strings.ReplaceAll(text, oldPkg, newPkg)
 			changed = true
 		}
 
