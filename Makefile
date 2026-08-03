@@ -144,8 +144,10 @@ build/local:
 
 PRODUCTION_HOST = remoteHost
 
-## release/push: 发布产品到服务器，仅上传文件
-# 中小项目可以引入 CI/CD，也可以通过命令快速发布到测试服务器上。
+## release/push: 发布产品到 Github 和 Gitee
 release/push:
-	@scp build/linux_amd64/bin $(PRODUCTION_HOST):/home/app/$(MODULE_NAME)
+	@git push
+	@git push gitee
+	@git push --tags
+	@git push gitee --tags
 	@echo "push Successed"

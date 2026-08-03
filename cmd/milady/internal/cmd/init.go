@@ -27,7 +27,7 @@ var templateRepos = []templateRepo{
 }
 
 const (
-	templateBranch = "template-empty"
+	templateBranch = "main"
 	// Gitee 先返回后，额外等待 GitHub 的最大时间。
 	pingToleranceMs = 1000
 	// 探测模板源的总超时时间。
@@ -407,7 +407,7 @@ func cloneTemplate(ctx context.Context, repoURL, target string) error {
 
 // cleanupProject 删除模板中不需要的文件和目录。
 func cleanupProject(name string) error {
-	removes := []string{".git", ".DS_Store"}
+	removes := []string{".git", ".DS_Store", "cmd/milady"}
 	for _, r := range removes {
 		_ = os.RemoveAll(filepath.Join(name, r))
 	}
