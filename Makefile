@@ -116,18 +116,6 @@ vendor:
 	go mod vendor
 
 # ==================================================================================== #
-# VERSION
-# ==================================================================================== #
-
-# 版本号规则说明
-# 1. 版本号使用 Git tag，格式为 v1.0.0。
-# 2. 如果当前提交没有 tag，找到最近的 tag，计算从该 tag 到当前提交的提交次数。例如，最近的 tag 为 v1.0.1，当前提交距离它有 10 次提交，则版本号为 v1.0.11（v1.0.1 + 10 次提交）。
-# 3. 如果没有任何 tag，则默认版本号为 v0.0.0，后续提交次数作为版本号的次版本号。
-
-# test:
-# 	@echo ">>>${RECENT_TAG}"
-
-# ==================================================================================== #
 # BUILD
 # ==================================================================================== #
 
@@ -137,15 +125,56 @@ vendor:
 build/local: 
 	@goreleaser build --snapshot --clean
 
-
 # ==================================================================================== #
-# PRODUCTION
+# VERSION
 # ==================================================================================== #
 
-PRODUCTION_HOST = remoteHost
+# 版本号规则说明
+# 1. 版本号使用 Git tag，格式为 v1.0.0。
+# 2. 如果当前提交没有 tag，找到最近的 tag，计算从该 tag 到当前提交的提交次数。例如，最近的 tag 为 v1.0.1，当前提交距离它有 10 次提交，则版本号为 v1.0.11（v1.0.1 + 10 次提交）。
+# 3. 如果没有任何 tag，则默认版本号为 v0.0.0，后续提交次数作为版本号的次版本号。
 
-## release/push: 发布产品到 Github 和 Gitee
-release/push:
+BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
+# 如果想仅支持注释标签，可以去掉 --tags，否则会包含轻量标签
+RECENT_TAG := $(shell git describe --tags --abbrev=0  2>&1 | grep -v -e "fatal" -e "Try" || echo "v0.0.0")
+
+ifeq ($(RECENT_TAG),v0.0.0)
+	COMMITS := $(shell git rev-list --count HEAD)
+else
+	COMMITS := $(shell git log --first-parent --format='%ae' $(RECENT_TAG)..$(BRANCH) | wc -l)
+	COMMITS := $(shell echo $(COMMITS) | sed 's/ //g')
+endif
+
+# 从版本字符串中提取主版本号、次版本号和修订号
+GIT_VERSION_MAJOR := $(shell echo $(RECENT_TAG) | cut -d. -f1 | sed 's/v//')
+GIT_VERSION_MINOR := $(shell echo $(RECENT_TAG) | cut -d. -f2)
+GIT_VERSION_PATCH := $(shell echo $(RECENT_TAG) | cut -d. -f3)
+
+# windows 系统 git bash 没有 bc
+# FINAL_PATCH := $(shell echo $(GIT_VERSION_PATCH) + $(COMMITS) | bc)
+FINAL_PATCH := $(shell echo '$(GIT_VERSION_PATCH) $(COMMITS)' | awk '{print $$1 + $$2}')
+# 最新 tag
+NEW_TAG := v$(GIT_VERSION_MAJOR).$(GIT_VERSION_MINOR).$(FINAL_PATCH)
+
+.PHONY: vinfo
+## vinfo: 获取最新 tag
+vinfo:
+	@echo "当前分支最新 tag: $(NEW_TAG)"
+
+.PHONY: git/tag
+## git/tag: 自动为当前提交打 tag，tag 注释包含最近提交记录
+git/tag:
+	@COMMITS=$$(git log '$(RECENT_TAG)'..HEAD --oneline --no-merges 2>/dev/null || echo "No previous tag found"); \
+	if [ -z "$$COMMITS" ]; then \
+		git tag -a $(NEW_TAG) -m "Release $(NEW_TAG)"; \
+	else \
+		MSG=$$(printf "Release $(NEW_TAG)\n\nChanges:\n%s" "$$COMMITS"); \
+		git tag -a $(NEW_TAG) -m "$$MSG"; \
+	fi; \
+	echo "已打 tag: $(NEW_TAG)"
+
+## git/push: 发布产品到 Github 和 Gitee
+git/push:
 	@git push
 	@git push gitee
 	@git push --tags
